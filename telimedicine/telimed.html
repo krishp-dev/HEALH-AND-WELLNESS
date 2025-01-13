@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telemedicine Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <style>
+        :root {
+            --primary: #2c7be5;
+            --secondary: #6e84a3;
+            --success: #00d97e;
+            --bg-gradient: linear-gradient(135deg, #f6f9fc 0%, #e9ecef 100%);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .page-header {
+            background: linear-gradient(45deg, var(--primary), #4e95ff);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            color: white;
+            border-radius: 0 0 2rem 2rem;
+            box-shadow: 0 4px 20px rgba(44, 123, 229, 0.2);
+        }
+
+        .doctor-card {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .doctor-card img {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .doctor-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .doctor-info {
+            padding: 1.5rem;
+        }
+
+        .availability-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+            animation: fadeIn 1s ease;
+        }
+
+        .form-control, .form-select {
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(44, 123, 229, 0.25);
+        }
+
+        .btn-book {
+            background: var(--primary);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-book:hover {
+            background: #1a68d1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 123, 229, 0.3);
+        }
+
+        .faq-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .accordion-item {
+            border: none;
+            margin-bottom: 1rem;
+            border-radius: 0.75rem !important;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            transform: translateX(5px);
+        }
+
+        .accordion-button {
+            border-radius: 0.75rem !important;
+            background: rgb(248, 249, 250);
+            padding: 1.25rem 1.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #2c7be5 0%, #4e95ff 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(44, 123, 229, 0.2);
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) invert(1);
+            transform: rotate(180deg) scale(1.2);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button::after {
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button:hover {
+            background: linear-gradient(135deg, #2c7be5 0%, #4e95ff 100%);
+            color: white;
+        }
+
+        .accordion-button:hover::after {
+            filter: brightness(0) invert(1);
+            transform: scale(1.2);
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .confirmation-message {
+            animation: slideInUp 0.5s ease;
+            background: var(--success);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+            <h1 class="text-center animate__animated animate__fadeInDown">Telemedicine Portal</h1>
+            <p class="text-center text-white-50 animate__animated animate__fadeInUp">Connect with top healthcare professionals online</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Doctor Profiles -->
+        <section class="doctors-section">
+            <h2 class="mb-4">Our Specialists</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInLeft">
+                    <div class="doctor-card">
+                        <img src="images/download.jpeg" alt="Dr. John Smith">
+                        <div class="doctor-info">
+                            <h5>Dr. John Smith</h5>
+                            <p class="text-muted">Cardiologist</p>
+                            <div class="availability-badge">
+                                Available: Mon-Fri
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+                    <div class="doctor-card">
+                        <img src="images/images.jpeg" alt="Dr. Emily Brown">
+                        <div class="doctor-info">
+                            <h5>Dr. Emily Brown</h5>
+                            <p class="text-muted">Pediatrician</p>
+                            <div class="availability-badge">
+                                Available: Mon-Sat
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 animate__animated animate__fadeInRight">
+                    <div class="doctor-card">
+                        <img src="images/images (1).jpeg" alt="Dr. Michael Lee">
+                        <div class="doctor-info">
+                            <h5>Dr. Michael Lee</h5>
+                            <p class="text-muted">Neurologist</p>
+                            <div class="availability-badge">
+                                Available: Tue-Thu
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Appointment Form -->
+        <section class="form-section">
+            <h2 class="mb-4">Book an Appointment</h2>
+            <form id="appointmentForm" class="needs-validation" novalidate>
+                <!-- Patient Name -->
+                <div class="mb-3">
+                  <label for="patientName" class="form-label">Patient Name</label>
+                  <input type="text" class="form-control" id="patientName" name="patientName" required>
+                  <div class="valid-feedback">Thank you for providing a valid name!</div>
+                  <div class="invalid-feedback">Please enter the patient's name.</div>
+                </div>
+              
+                <!-- Patient Age -->
+                <div class="mb-3">
+                  <label for="patientAge" class="form-label">Patient Age</label>
+                  <input type="number" class="form-control" id="patientAge" name="patientAge" min="0" required>
+                  <div class="valid-feedback">Thank you for entering a valid age!</div>
+                  <div class="invalid-feedback">Please enter a valid age.</div>
+                </div>
+              
+                <!-- Gender -->
+                <div class="mb-3">
+                  <label class="form-label">Gender</label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="maleGender" value="male" required>
+                      <label class="form-check-label" for="maleGender">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="female" required>
+                      <label class="form-check-label" for="femaleGender">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="otherGender" value="other" required>
+                      <label class="form-check-label" for="otherGender">Other</label>
+                    </div>
+                  </div>
+                  <div class="valid-feedback">Thank you for selecting a valid gender!</div>
+                  <div class="invalid-feedback">Please select a gender.</div>
+                </div>
+              
+                <!-- Address -->
+                <div class="mb-3">
+                  <label for="address" class="form-label">Street Address</label>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
+                  <div class="valid-feedback">Thank you for entering a valid address!</div>
+                  <div class="invalid-feedback">Please provide a street address.</div>
+                </div>
+              
+                <!-- State -->
+                <div class="mb-3">
+                  <label for="state" class="form-label">State</label>
+                  <select class="form-select" id="state" name="state" required>
+                    <option value="" disabled selected>Select State</option>
+                    <option value="MH">Maharashtra</option>
+                    <option value="RJ">Rajasthan</option>
+                    <option value="GJ">Gujarat</option>
+                  </select>
+                  <div class="valid-feedback">Thank you for selecting a valid state!</div>
+                  <div class="invalid-feedback">Please select a state.</div>
+                </div>
+              
+                <!-- City -->
+                <div class="mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <select class="form-select" id="city" name="city" required>
+                    <option value="" disabled selected>Select City</option>
+                    <optgroup label="Maharashtra">
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Pune">Pune</option>
+                    </optgroup>
+                    <optgroup label="Rajasthan">
+                      <option value="Jaipur">Jaipur</option>
+                      <option value="Udaipur">Udaipur</option>
+                    </optgroup>
+                    <optgroup label="Gujarat">
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Surat">Surat</option>
+                    </optgroup>
+                  </select>
+                  <div class="valid-feedback">Thank you for selecting a valid city!</div>
+                  <div class="invalid-feedback">Please select a city.</div>
+                </div>
+              
+                <!-- ZIP Code -->
+                <div class="mb-3">
+                  <label for="zip" class="form-label">ZIP Code</label>
+                  <input type="text" class="form-control" id="zip" name="zip" placeholder="123456" required minlength="6" maxlength="6" pattern="\d{6}">
+                  <div class="valid-feedback">Thank you for entering a valid ZIP code!</div>
+                  <div class="invalid-feedback">Please provide a valid 6-digit ZIP code.</div>
+                </div>
+              
+                
+            
+              
+                <script>
+                  // Updated mapping of states and their cities
+                  const stateCityMap = {
+                    MH: ["Mumbai", "Pune"],
+                    RJ: ["Jaipur", "Udaipur"],
+                    GJ: ["Ahmedabad", "Surat"],
+                  };
+                
+                  const stateDropdown = document.getElementById("state");
+                  const cityDropdown = document.getElementById("city");
+                
+                  // Populate cities based on selected state
+                  stateDropdown.addEventListener("change", function () {
+                    const selectedState = this.value;
+                
+                    // Clear previous cities
+                    cityDropdown.innerHTML = '<option value="" disabled selected>Select City</option>';
+                
+                    // Enable city dropdown only if a state is selected
+                    cityDropdown.disabled = !selectedState;
+                
+                    // Populate cities for the selected state
+                    if (selectedState && stateCityMap[selectedState]) {
+                      stateCityMap[selectedState].forEach(city => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        cityDropdown.appendChild(option);
+                      });
+                    }
+                  });
+                </script>  
+                <div class="mb-3">
+                    <label class="form-label">Select Doctor</label>
+                    <select class="form-select" id="doctorSelect" required>
+                        <option value="">Choose a doctor...</option>
+                        <option value="smith">Dr. John Smith (Cardiologist)</option>
+                        <option value="brown">Dr. Emily Brown (Pediatrician)</option>
+                        <option value="lee">Dr. Michael Lee (Neurologist)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Appointment Date</label>
+                    <input type="date" class="form-control" id="appointmentDate" required>
+                </div>
+                <button type="submit" class="btn btn-outline-info">Book Appointment</button>
+            </form>
+            <div id="confirmationMessage" class="confirmation-message" style="display: none;  ">
+                Appointment Confirmed! We'll send you a confirmation email shortly.
+            </div>
+        </section>
+
+        <!-- FAQs -->
+        <section class="faq-section mb-5">
+            <h2 class="mb-4">Frequently Asked Questions</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How does telemedicine consultation work?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Telemedicine consultations are conducted through secure video calls. Once you book an appointment, you'll receive a link to join the virtual consultation. You'll need a device with a camera and microphone, and a stable internet connection. Our platform is user-friendly and HIPAA-compliant to ensure your privacy.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            What should I do if I need to reschedule my appointment?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can reschedule your appointment up to 24 hours before the scheduled time. Simply log into your patient portal or contact our support team. Late cancellations or no-shows may incur a fee. We'll do our best to accommodate your new preferred time slot.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Are prescriptions available through telemedicine?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, our doctors can prescribe medications when appropriate. However, certain medications, particularly controlled substances, may require in-person visits. All prescriptions are sent electronically to your preferred pharmacy for convenient pickup.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            Is my personal health information secure?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutely! We take your privacy seriously. Our platform is fully HIPAA-compliant and uses end-to-end encryption for all video consultations. Your medical records and personal information are stored securely and can only be accessed by authorized healthcare providers involved in your care.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            What insurance plans do you accept?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We accept most major insurance plans, including Medicare and private insurance. Coverage for telemedicine varies by plan. We recommend checking with your insurance provider about telemedicine benefits. Our team can help verify your coverage before the appointment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>    
+</body>
+</html>
