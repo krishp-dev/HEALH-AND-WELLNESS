@@ -1,4 +1,4 @@
-
+// Doctor availability data
 const doctors = {
     smith: {
         name: 'Dr. John Smith',
@@ -14,47 +14,78 @@ const doctors = {
     }
 };
 
-const appointmentForm = document.getElementById('appointmentForm');
-const doctorSelect = document.getElementById('doctorSelect');
-const appointmentDate = document.getElementById('appointmentDate');
-const confirmationMessage = document.getElementById('confirmationMessage');
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const appointmentForm = document.getElementById('appointmentForm');
+    const doctorSelect = document.getElementById('doctorSelect');
+    const appointmentDate = document.getElementById('appointmentDate');
+    const confirmationMessage = document.getElementById('confirmationMessage');
 
-// Set minimum date to tomorrow
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-appointmentDate.min = tomorrow.toISOString().split('T')[0];
+   
 
-// Utility function to get the day name from a date
-function getDayName(dateString) {
-    const date = new Date(dateString);
-    const options = { weekday: 'long' };
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-}
-
-appointmentForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    const doctorKey = doctorSelect.value;
-    const selectedDate = appointmentDate.value;
-
-    if (!doctorKey || !selectedDate) {
-        alert('Please select a doctor and a valid date.');
-        return;
+    // Set minimum date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    if (appointmentDate) {
+        appointmentDate.min = tomorrow.toISOString().split('T')[0];
     }
 
-    const doctor = doctors[doctorKey];
-    const selectedDay = getDayName(selectedDate);
-
-    // Check if the selected day is within the doctor's availability
-    if (!doctor.availability.includes(selectedDay)) {
-        confirmationMessage.style.display = "block";
-        confirmationMessage.style.backgroundColor = "red"
-        confirmationMessage.textContent = "Sorry,  ${doctor.name} is not available on ${selectedDate}"
-        return;
+    function getDayName(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { weekday: 'long' });
     }
 
-    // Display the confirmation message
-    confirmationMessage.style.display = 'block';
-    confirmationMessage.textContent = `Appointment Confirmed! You've booked an appointment with ${doctor.name} on ${selectedDate}.`;
+    function showMessage(message, isError = false) {
+        if (confirmationMessage) {
+            confirmationMessage.textContent = message;
+            confirmationMessage.style.display = 'block';
+            confirmationMessage.className = 'alert mt-3';
+            if (isError) {
+                confirmationMessage.classList.add('alert-danger');
+            } else {
+                confirmationMessage.classList.add('alert-success');
+            }
+        } else {
+            alert(message);
+        }
+    }
+
+    if (appointmentForm) {
+        
+        appointmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+           
+            if (confirmationMessage) {
+                confirmationMessage.style.display = 'none';
+                
+            }
+            
+            console.log("huii")
+            const doctorKey = doctorSelect?.value;
+            const selectedDate = appointmentDate?.value;
+            console.log(doctorKey , selectedDate)
+            if (!doctorKey || !selectedDate) {
+                showMessage('Please select a doctor and a valid date.', true);
+                return;
+            }
+
+            const doctor = doctors[doctorKey];
+            const selectedDay = getDayName(selectedDate);
+
+            console.log('Selected day:', selectedDay);
+            console.log('Doctor availability:', doctor.availability);
+
+            // Check if the selected day is within the doctor's availability
+            if (!doctor.availability.includes(selectedDay)) {
+                console.log("soryy")
+                showMessage(`Sorry, ${doctor.name} is not available on ${selectedDay}s`, true);
+                return;
+            }
+
+            // Show success message
+            showMessage(`Appointment Confirmed! You've booked an appointment with ${doctor.name} on ${selectedDate}.`);
+        });
+    }
 });
-

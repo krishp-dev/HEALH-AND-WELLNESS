@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
     <style>
         :root {
             --primary: #2c7be5;
@@ -246,7 +245,7 @@
                   <div class="valid-feedback">Thank you for providing a valid name!</div>
                   <div class="invalid-feedback">Please enter the patient's name.</div>
                 </div>
-              
+          
                 <!-- Patient Age -->
                 <div class="mb-3">
                   <label for="patientAge" class="form-label">Patient Age</label>
@@ -254,7 +253,7 @@
                   <div class="valid-feedback">Thank you for entering a valid age!</div>
                   <div class="invalid-feedback">Please enter a valid age.</div>
                 </div>
-              
+          
                 <!-- Gender -->
                 <div class="mb-3">
                   <label class="form-label">Gender</label>
@@ -275,7 +274,7 @@
                   <div class="valid-feedback">Thank you for selecting a valid gender!</div>
                   <div class="invalid-feedback">Please select a gender.</div>
                 </div>
-              
+          
                 <!-- Address -->
                 <div class="mb-3">
                   <label for="address" class="form-label">Street Address</label>
@@ -283,7 +282,7 @@
                   <div class="valid-feedback">Thank you for entering a valid address!</div>
                   <div class="invalid-feedback">Please provide a street address.</div>
                 </div>
-              
+          
                 <!-- State -->
                 <div class="mb-3">
                   <label for="state" class="form-label">State</label>
@@ -296,7 +295,7 @@
                   <div class="valid-feedback">Thank you for selecting a valid state!</div>
                   <div class="invalid-feedback">Please select a state.</div>
                 </div>
-              
+          
                 <!-- City -->
                 <div class="mb-3">
                   <label for="city" class="form-label">City</label>
@@ -318,7 +317,7 @@
                   <div class="valid-feedback">Thank you for selecting a valid city!</div>
                   <div class="invalid-feedback">Please select a city.</div>
                 </div>
-              
+          
                 <!-- ZIP Code -->
                 <div class="mb-3">
                   <label for="zip" class="form-label">ZIP Code</label>
@@ -326,42 +325,84 @@
                   <div class="valid-feedback">Thank you for entering a valid ZIP code!</div>
                   <div class="invalid-feedback">Please provide a valid 6-digit ZIP code.</div>
                 </div>
-              
-                
+             
             
-              
-                <script>
-                  // Updated mapping of states and their cities
-                  const stateCityMap = {
-                    MH: ["Mumbai", "Pune"],
-                    RJ: ["Jaipur", "Udaipur"],
-                    GJ: ["Ahmedabad", "Surat"],
-                  };
+          
+            <script>
+              // Select the form and its input elements
+              const form = document.getElementById('appointmentForm');
+              const inputs = form.querySelectorAll('input, select, textarea');
+          
+              // Add individual validation logic for each field
+              inputs.forEach(input => {
+                input.addEventListener('blur', () => {
+                  if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    input.classList.remove('is-valid');
+                  } else {
+                    input.classList.add('is-valid');
+                    input.classList.remove('is-invalid');
+                  }
+                });
+              });
+          
+              // Prevent form submission if any field is invalid
+              form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+          
+                // Add was-validated class to the form
+                form.classList.add('was-validated');
+              });
+            </script>
+       <script>
+        // Mapping of states and their cities
+        const stateCityMap = {
+            MH: ["Mumbai", "Pune"],
+            RJ: ["Jaipur", "Udaipur"],
+            GJ: ["Ahmedabad", "Surat"]
+        };
+    
+        // Get references to the dropdowns
+        const stateDropdown = document.getElementById("state");
+        const cityDropdown = document.getElementById("city");
+    
+        // Initialize city dropdown as disabled
+        cityDropdown.disabled = true;
+    
+        // Event listener for state dropdown
+        stateDropdown.addEventListener("change", function () {
+            // Clear existing city options
+            cityDropdown.innerHTML = '<option value="" disabled selected>Select City</option>';
+    
+            const selectedState = this.value;
+    
+            // If no state is selected or invalid state
+            if (!selectedState || !stateCityMap[selectedState]) {
+                cityDropdown.disabled = true;
+                return;
+            }
+    
+            // Enable city dropdown and populate cities
+            cityDropdown.disabled = false;
+    
+            // Add cities for selected state
+            stateCityMap[selectedState].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                cityDropdown.appendChild(option);
+            });
+        });
+    </script>
+    
                 
-                  const stateDropdown = document.getElementById("state");
-                  const cityDropdown = document.getElementById("city");
-                
-                  // Populate cities based on selected state
-                  stateDropdown.addEventListener("change", function () {
-                    const selectedState = this.value;
-                
-                    // Clear previous cities
-                    cityDropdown.innerHTML = '<option value="" disabled selected>Select City</option>';
-                
-                    // Enable city dropdown only if a state is selected
-                    cityDropdown.disabled = !selectedState;
-                
-                    // Populate cities for the selected state
-                    if (selectedState && stateCityMap[selectedState]) {
-                      stateCityMap[selectedState].forEach(city => {
-                        const option = document.createElement("option");
-                        option.value = city;
-                        option.textContent = city;
-                        cityDropdown.appendChild(option);
-                      });
-                    }
-                  });
-                </script>  
+        
+            
+        
+    
                 <div class="mb-3">
                     <label class="form-label">Select Doctor</label>
                     <select class="form-select" id="doctorSelect" required>
@@ -377,7 +418,7 @@
                 </div>
                 <button type="submit" class="btn btn-outline-info">Book Appointment</button>
             </form>
-            <div id="confirmationMessage" class="confirmation-message" style="display: none;  ">
+            <div id="   " class="confirmation-message" style="display: none;  ">
                 Appointment Confirmed! We'll send you a confirmation email shortly.
             </div>
         </section>
@@ -452,6 +493,8 @@
                 </div>
             </div>
         </section>
-    </div>    
+    </div> 
+    <script src="script.js"></script>
+   
 </body>
 </html>
