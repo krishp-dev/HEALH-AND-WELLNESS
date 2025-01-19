@@ -1,11 +1,5 @@
 class MoodTracker {
     constructor() {
-        // Check for user authentication first
-        if (!localStorage.getItem('moodTrackerUser')) {
-            window.location.href = 'login.html';
-            return;
-        }
-        
         // Rest of your existing constructor code
         this.moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
         this.chart = null;
@@ -520,28 +514,4 @@ class Suggestions {
 document.addEventListener('DOMContentLoaded', () => {
     new Suggestions();
 });
-// Add this to your existing DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', () => {
-    // Display user info
-    const userData = JSON.parse(localStorage.getItem('moodTrackerUser'));
-    if (userData) {
-        document.getElementById('userNameDisplay').textContent = `Welcome, ${userData.fullName}!`;
-    }
-
-    // Handle logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('moodTrackerUser');
-        window.location.href = 'login.html';
-    });
-
-    // Your existing initialization
-    const moodTracker = new MoodTracker();
-    
-    window.addEventListener('resize', () => {
-        if (moodTracker.chart) {
-            moodTracker.chart.resize();
-        }
-    });
-});
-
 
