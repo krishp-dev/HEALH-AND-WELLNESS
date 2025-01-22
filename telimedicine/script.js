@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
             }
             
-            console.log("huii")
             const doctorKey = doctorSelect?.value;
             const selectedDate = appointmentDate?.value;
             console.log(doctorKey , selectedDate)
@@ -89,3 +88,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    // Debug: Log formData
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+    fetch('http://localhost/haw/telimedicine/submit_appointment.php', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(response => 
+        response.json()
+        
+)
+    .then(data => {
+        console.log(data);
+        if (data.success) {
+            alert("Appointment booked successfully!");
+        } else {
+            alert("Error: " + (data.error || "Unknown error occurred"));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting form: ' + error.message);
+    });
+});
+
+// document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
+//     e.preventDefault();
+    
+//     // Get submit button that was clicked
+//     const clickedButton = document.activeElement;
+//     if (clickedButton.classList.contains('btn-outline-danger')) {
+//         // Handle cancel logic
+//         return;
+//     }
+
+//     try {
+//         // Get form data
+//         const formData = new FormData(this);
+//         const data = Object.fromEntries(formData.entries());
+        
+//         // Send to backend
+//         const response = await fetch('http://localhost:3000/api/appointments', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(data)
+//         });
+
+//         const result = await response.json();
+
+//         if (result.success) {
+//             // Show success message
+//             document.getElementById('confirmationMessage').style.display = 'block';
+//             document.getElementById('confirmationMessage').textContent = 
+//                 'Appointment booked successfully!';
+//             // Reset form
+//             this.reset();
+//         } else {
+//             throw new Error(result.error);
+//         }
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         document.getElementById('confirmationMessage').style.display = 'block';
+//         document.getElementById('confirmationMessage').textContent = 
+//             'Error booking appointment: ' + error.message;
+//         document.getElementById('confirmationMessage').style.color = 'red';
+//     }
+// });

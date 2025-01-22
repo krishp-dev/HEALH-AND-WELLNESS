@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options -MultiViews
+    
+    # Allow direct access to PHP files
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^.*\.php$ - [L]
+    
+    # Allow POST requests explicitly
+    <LimitExcept GET POST>
+        Order deny,allow
+        Deny from all
+    </LimitExcept>
+    
+    # Handle OPTIONS method for CORS
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+
+# Set CORS headers
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "POST, GET, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type"

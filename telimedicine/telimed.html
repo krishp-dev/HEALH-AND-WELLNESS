@@ -237,7 +237,7 @@
         <!-- Appointment Form -->
         <section class="form-section">
             <h2 class="mb-4">Book an Appointment</h2>
-            <form id="appointmentForm" class="needs-validation" novalidate>
+            <form id="appointmentForm" class="needs-validation" action="submit_appointment.php" method="POST" novalidate>
                 <!-- Patient Name -->
                 <div class="mb-3">
                   <label for="patientName" class="form-label">Patient Name</label>
@@ -326,86 +326,10 @@
                   <div class="invalid-feedback">Please provide a valid 6-digit ZIP code.</div>
                 </div>
              
-            
-          
-            <script>
-              // Select the form and its input elements
-              const form = document.getElementById('appointmentForm');
-              const inputs = form.querySelectorAll('input, select, textarea');
-          
-              // Add individual validation logic for each field
-              inputs.forEach(input => {
-                input.addEventListener('blur', () => {
-                  if (!input.checkValidity()) {
-                    input.classList.add('is-invalid');
-                    input.classList.remove('is-valid');
-                  } else {
-                    input.classList.add('is-valid');
-                    input.classList.remove('is-invalid');
-                  }
-                });
-              });
-          
-              // Prevent form submission if any field is invalid
-              form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                }
-          
-                // Add was-validated class to the form
-                form.classList.add('was-validated');
-              });
-            </script>
-       <script>
-        // Mapping of states and their cities
-        const stateCityMap = {
-            MH: ["Mumbai", "Pune"],
-            RJ: ["Jaipur", "Udaipur"],
-            GJ: ["Ahmedabad", "Surat"]
-        };
-    
-        // Get references to the dropdowns
-        const stateDropdown = document.getElementById("state");
-        const cityDropdown = document.getElementById("city");
-    
-        // Initialize city dropdown as disabled
-        cityDropdown.disabled = true;
-    
-        // Event listener for state dropdown
-        stateDropdown.addEventListener("change", function () {
-            // Clear existing city options
-            cityDropdown.innerHTML = '<option value="" disabled selected>Select City</option>';
-    
-            const selectedState = this.value;
-    
-            // If no state is selected or invalid state
-            if (!selectedState || !stateCityMap[selectedState]) {
-                cityDropdown.disabled = true;
-                return;
-            }
-    
-            // Enable city dropdown and populate cities
-            cityDropdown.disabled = false;
-    
-            // Add cities for selected state
-            stateCityMap[selectedState].forEach(city => {
-                const option = document.createElement("option");
-                option.value = city;
-                option.textContent = city;
-                cityDropdown.appendChild(option);
-            });
-        });
-    </script>
-    
-                
-        
-            
-        
     
                 <div class="mb-3">
                     <label class="form-label">Select Doctor</label>
-                    <select class="form-select" id="doctorSelect" required>
+                    <select class="form-select" id="doctorSelect" name="doctor" required>
                         <option value="">Choose a doctor...</option>
                         <option value="smith">Dr. John Smith (Cardiologist)</option>
                         <option value="brown">Dr. Emily Brown (Pediatrician)</option>
@@ -414,9 +338,12 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Appointment Date</label>
-                    <input type="date" class="form-control" id="appointmentDate" required>
+                    <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
                 </div>
-                <button type="submit" class="btn btn-outline-info">Book Appointment</button>
+                <button type="submit" class="btn btn-outline-primary">Book Appointment</button>
+                <button type="submit" class="btn btn-outline-danger">Cancel Appointment</button>
+
+
             </form>
             <div  id="confirmationMessage" style="display: none;  ">
                 Appointment Confirmed! We'll send you a confirmation email shortly.
@@ -494,6 +421,85 @@
             </div>
         </section>
     </div> 
+
+    <script>
+        // Select the form and its input elements
+        const form = document.getElementById('appointmentForm');
+        const inputs = form.querySelectorAll('input, select, textarea');
+    
+        // Add individual validation logic for each field
+        inputs.forEach(input => {
+          input.addEventListener('blur', () => {
+            if (!input.checkValidity()) {
+              input.classList.add('is-invalid');
+              input.classList.remove('is-valid');
+            } else {
+              input.classList.add('is-valid');
+              input.classList.remove('is-invalid');
+            }
+          });
+        });
+    
+        // Prevent form submission if any field is invalid
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+    
+          // Add was-validated class to the form
+          form.classList.add('was-validated');
+        });
+      </script>
+ <script>
+  // Mapping of states and their cities
+  const stateCityMap = {
+      MH: ["Mumbai", "Pune"],
+      RJ: ["Jaipur", "Udaipur"],
+      GJ: ["Ahmedabad", "Surat"]
+  };
+
+  // Get references to the dropdowns
+  const stateDropdown = document.getElementById("state");
+  const cityDropdown = document.getElementById("city");
+
+  // Initialize city dropdown as disabled
+  cityDropdown.disabled = true;
+
+  // Event listener for state dropdown
+  stateDropdown.addEventListener("change", function () {
+      // Clear existing city options
+      cityDropdown.innerHTML = '<option value="" disabled selected>Select City</option>';
+
+      const selectedState = this.value;
+
+      // If no state is selected or invalid state
+      if (!selectedState || !stateCityMap[selectedState]) {
+          cityDropdown.disabled = true;
+          return;
+      }
+
+      // Enable city dropdown and populate cities
+      cityDropdown.disabled = false;
+
+      // Add cities for selected state
+      stateCityMap[selectedState].forEach(city => {
+          const option = document.createElement("option");
+          option.value = city;
+          option.textContent = city;
+          cityDropdown.appendChild(option);
+      });
+  });
+</script>
+<script>
+document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+    if (!this.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    this.classList.add('was-validated');
+});
+</script>
     <script src="script.js"></script>
    
 </body>
