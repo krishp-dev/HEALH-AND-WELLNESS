@@ -1,79 +1,100 @@
 <?php
-header('Content-Type: application/json');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "appointments";
 
-// Suppress warnings in output
-ini_set('display_errors', 0);
-error_reporting(E_ALL & ~E_NOTICE);
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Database configuration
-$db_host = 'localhost';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'appointments'; // Ensure the correct database name
+        // Insert into appointments table
+        $sql = "INSERT INTO appointment (
+            patient_name,
+            patient_type,
+            last_visit_date,
+            last_visit_reason,
+            patient_age,
+            gender,
+            email,
+            phone_number,
+            address,
+            blood_type,
+            visit_reason,
+            state,
+            city,
+            doctor,
+            allergies,
+            other_allergies,
+            insurance_provider,
+            policy_number,
+            appointment_date,
+            status
+        ) VALUES (
+            :patientName,
+            :patientType,
+            :lastVisitDate,
+            :lastVisitReason,
+            :patientAge,
+            :gender,
+            :email,
+            :phoneNumber,
+            :address,
+            :bloodType,
+            :visitReason,
+            :state,
+            :city,
+            :doctor,
+            :allergies,
+            :otherAllergies,
+            :insuranceProvider,
+            :policyNumber,
+            :appointmentDate,
+            'scheduled'
+        )";
 
-try {
-    // Create database connection
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+        $stmt = $conn->prepare($sql);
 
-    // Check connection
-    if ($conn->connect_error) {
-        throw new Exception("Connection failed: " . $conn->connect_error);
+        // Prepare allergies data
+        $allergies = isset($_POST['allergies']) ? implode(',', $_POST['allergies']) : '';
+
+        // Bind parameters with matching form names
+        $stmt->bindParam(':patientName', $_POST['patientName']);
+        $stmt->bindParam(':patientType', $_POST['patientType']);
+        $stmt->bindParam(':lastVisitDate', $_POST['lastVisitDate']);
+        $stmt->bindParam(':lastVisitReason', $_POST['lastVisitReason']);
+        $stmt->bindParam(':patientAge', $_POST['patientAge']);
+        $stmt->bindParam(':gender', $_POST['gender']);
+        $stmt->bindParam(':email', $_POST['email']);
+        $stmt->bindParam(':phoneNumber', $_POST['phoneNumber']);
+        $stmt->bindParam(':address', $_POST['address']);
+        $stmt->bindParam(':bloodType', $_POST['bloodType']);
+        $stmt->bindParam(':visitReason', $_POST['visitReason']);
+        $stmt->bindParam(':state', $_POST['state']);
+        $stmt->bindParam(':city', $_POST['city']);
+        $stmt->bindParam(':doctor', $_POST['doctor']);
+        $stmt->bindParam(':allergies', $allergies);
+        $stmt->bindParam(':otherAllergies', $_POST['otherAllergies']);
+        $stmt->bindParam(':insuranceProvider', $_POST['insuranceProvider']);
+        $stmt->bindParam(':policyNumber', $_POST['policyNumber']);
+        $stmt->bindParam(':appointmentDate', $_POST['appointmentDate']);
+
+        $stmt->execute();
+
+        echo json_encode([
+            "status" => "success",
+            "message" => "Appointment booked successfully!"
+        ]);
+
+    } catch(PDOException $e) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Error: " . $e->getMessage()
+        ]);
     }
 
-    // Prepare SQL statement
-    $sql = "INSERT INTO appointment (
-        patientName, 
-        patientAge, 
-        gender, 
-        address, 
-        state, 
-        city, 
-        zip, 
-        doctor, 
-        appointmentDate
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        throw new Exception("Error preparing statement: " . $conn->error);
-    }
-
-    error_log(json_encode($_POST));
-    $stmt->bind_param("sisssssss",
-        $_POST['patientName'],
-        $_POST['patientAge'],
-        $_POST['gender'],
-        $_POST['address'],
-        $_POST['state'],
-        $_POST['city'],
-        $_POST['zip'],
-        $_POST['doctor'],
-        $_POST['appointmentDate']
-    );
-
-    // Execute the statement
-    if (!$stmt->execute()) {
-        throw new Exception("Error executing statement: " . $stmt->error);
-    }
-
-    // Send success response
-    echo json_encode([
-        'success' => true,
-        'message' => 'Appointment booked successfully'
-    ]);
-
-    $stmt->close();
-    $conn->close();
-
-} catch (Exception $e) {
-    // Log error
-    error_log("Error: " . $e->getMessage());
-
-    // Send error response
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'error' => $e->getMessage()
-    ]);
+    $conn = null;
 }
+
 ?>

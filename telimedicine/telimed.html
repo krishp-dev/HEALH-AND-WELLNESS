@@ -245,7 +245,54 @@
                   <div class="valid-feedback">Thank you for providing a valid name!</div>
                   <div class="invalid-feedback">Please enter the patient's name.</div>
                 </div>
-          
+                <div class="mb-3">
+                  <label class="form-label">Patient Type</label>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" name="patientType" id="newPatient" value="new" required>
+                      <label class="form-check-label" for="newPatient">New Patient</label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="radio" name="patientType" id="returningPatient" value="returning">
+                      <label class="form-check-label" for="returningPatient">Returning Patient</label>
+                  </div>
+              </div>
+              
+              <!-- Previous Visit Details (shown only for returning patients) -->
+              <div class="mb-3" id="previousVisitSection" style="display: none;">
+                  <label class="form-label">Previous Visit Details</label>
+                  <div class="row">
+                      <div class="col-md-4">
+                          <input type="date" class="form-control" id="lastVisitDate" name="lastVisitDate">
+                          <div class="form-text">Last Visit Date</div>
+                      </div>
+                      <div class="col-md-8">
+                          <input type="text" class="form-control" id="lastVisitReason" name="lastVisitReason" 
+                              placeholder="Reason for last visit">
+                      </div>
+                  </div>
+              </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    // Handle Patient Type Selection
+    const returningPatientRadio = document.getElementById('returningPatient');
+    const newPatientRadio = document.getElementById('newPatient');
+    const previousVisitSection = document.getElementById('previousVisitSection');
+
+    function togglePreviousVisitSection() {
+        previousVisitSection.style.display = returningPatientRadio.checked ? 'block' : 'none';
+        if (returningPatientRadio.checked) {
+            document.getElementById('lastVisitDate').required = true;
+            document.getElementById('lastVisitReason').required = true;
+        } else {
+            document.getElementById('lastVisitDate').required = false;
+            document.getElementById('lastVisitReason').required = false;
+        }
+    }
+
+    returningPatientRadio.addEventListener('change', togglePreviousVisitSection);
+    newPatientRadio.addEventListener('change', togglePreviousVisitSection);
+  })
+    </script>              
                 <!-- Patient Age -->
                 <div class="mb-3">
                   <label for="patientAge" class="form-label">Patient Age</label>
@@ -274,7 +321,20 @@
                   <div class="valid-feedback">Thank you for selecting a valid gender!</div>
                   <div class="invalid-feedback">Please select a gender.</div>
                 </div>
-          
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="example@domain.com" required>
+                  <div class="valid-feedback">Thank you for providing a valid email!</div>
+                  <div class="invalid-feedback">Please provide a valid email address.</div>
+                </div>
+              
+                <!-- Phone Number -->
+                <div class="mb-3">
+                  <label for="phoneNumber" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="123-456-7890" required pattern="^\d{10}$">
+                  <div class="valid-feedback">Thank you for entering a valid phone number!</div>
+                  <div class="invalid-feedback">Please provide a valid 10-digit phone number.</div>
+                </div>
                 <!-- Address -->
                 <div class="mb-3">
                   <label for="address" class="form-label">Street Address</label>
@@ -282,7 +342,30 @@
                   <div class="valid-feedback">Thank you for entering a valid address!</div>
                   <div class="invalid-feedback">Please provide a street address.</div>
                 </div>
-          
+                <div class="mb-3">
+                  <label for="bloodType" class="form-label">Blood Type</label>
+                  <select class="form-select" id="bloodType" name="bloodType" required>
+                      <option value="" selected disabled>Select Blood Type</option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                      <option value="unknown">Don't Know</option>
+                  </select>
+                  <div class="valid-feedback">Thank you for providing your blood type!</div>
+                  <div class="invalid-feedback">Please select your blood type or choose "Don't Know".</div>
+              </div>
+              <div class="mb-3">
+                <label for="visitReason" class="form-label">Reason for Visit</label>
+                <textarea class="form-control" id="visitReason" name="visitReason" rows="3" required
+                    placeholder="Please describe your symptoms or reason for appointment"></textarea>
+                <div class="valid-feedback">Thank you for providing the visit reason!</div>
+                <div class="invalid-feedback">Please describe your reason for visit.</div>
+            </div>
                 <!-- State -->
                 <div class="mb-3">
                   <label for="state" class="form-label">State</label>
@@ -317,16 +400,6 @@
                   <div class="valid-feedback">Thank you for selecting a valid city!</div>
                   <div class="invalid-feedback">Please select a city.</div>
                 </div>
-          
-                <!-- ZIP Code -->
-                <div class="mb-3">
-                  <label for="zip" class="form-label">ZIP Code</label>
-                  <input type="text" class="form-control" id="zip" name="zip" placeholder="123456" required minlength="6" maxlength="6" pattern="\d{6}">
-                  <div class="valid-feedback">Thank you for entering a valid ZIP code!</div>
-                  <div class="invalid-feedback">Please provide a valid 6-digit ZIP code.</div>
-                </div>
-             
-    
                 <div class="mb-3">
                     <label class="form-label">Select Doctor</label>
                     <select class="form-select" id="doctorSelect" name="doctor" required>
@@ -336,6 +409,66 @@
                         <option value="lee">Dr. Michael Lee (Neurologist)</option>
                     </select>
                 </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="noAllergies">
+                    <label class="form-check-label" for="noAllergies">No Allergies</label>
+                </div>
+                
+                <div id="allergiesSection">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="allergies[]" value="medication">
+                        <label class="form-check-label">Medication Allergies</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="allergies[]" value="food">
+                        <label class="form-check-label">Food Allergies</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="allergies[]" value="environmental">
+                        <label class="form-check-label">Environmental Allergies</label>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="otherAllergies" name="otherAllergies" 
+                            placeholder="Please specify any other allergies">
+                    </div>
+                </div>
+                
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const noAllergiesCheckbox = document.getElementById('noAllergies');
+                        const allergiesSection = document.getElementById('allergiesSection');
+                
+                        if (noAllergiesCheckbox && allergiesSection) {
+                            noAllergiesCheckbox.addEventListener('change', function() {
+                                const allergyInputs = allergiesSection.querySelectorAll('input');
+                                allergyInputs.forEach(input => {
+                                    input.disabled = this.checked;
+                                    if (this.checked) {
+                                        input.checked = false;
+                                        if (input.type === 'text') input.value = '';
+                                    }
+                                });
+                            });
+                        } else {
+                            console.error("Element not found: Check your HTML IDs.");
+                        }
+                    });
+                </script>
+                
+                <div class="mb-3">
+                  <label class="form-label">Insurance Information</label>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="insuranceProvider" name="insuranceProvider" 
+                              placeholder="Insurance Provider" required>
+                      </div>
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" id="policyNumber" name="policyNumber" 
+                              placeholder="Policy Number" required>
+                      </div>
+                  </div>
+              </div>
                 <div class="mb-3">
                     <label class="form-label">Appointment Date</label>
                     <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
