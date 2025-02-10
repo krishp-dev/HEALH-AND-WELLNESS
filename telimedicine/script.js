@@ -105,12 +105,14 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         body: formData
     })
     .then(response => 
-        response.json()
+        response.json(),
+        
         
 )
     .then(data => {
-        console.log(data);
-        if (data.success) {
+       
+        console.log("data",data);
+        if (data.status == "success") {
             alert("Appointment booked successfully!");
         } else {
             alert("Error: " + (data.error || "Unknown error occurred"));

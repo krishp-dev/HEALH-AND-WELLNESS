@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Wellness</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+<style>
+        .container {
+            margin-bottom: 100px; /* Add space between cards and footer */
+      }
+      body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+        .navbar {
+            background: linear-gradient(135deg, #0a0f28 0%, #1e3c72 100%) !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand img:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-item .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            position: relative;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .nav-item .nav-link:hover {
+            color: white !important;
+            background-color: rgba(30, 60, 114, 0.8); /* Soft Blue Glow */
+            box-shadow: 0 4px 8px rgba(30, 60, 114, 0.5);
+        }
+
+        .navbar-toggler {
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:hover {
+            transform: rotate(180deg);
+            border-color: white;
+        }
+
+        /* Responsive Centering */
+        @media (min-width: 992px) {
+            .navbar-nav {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+
+        @media (max-width: 991px) {
+            .navbar-nav {
+                text-align: center;
+                width: 100%;
+            }
+            .navbar-collapse {
+                justify-content: center;
+            }
+        }
+        .hero {
+            padding: 50px 20px;
+            font-size: 1.5em;
+        }
+        .cta {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.3s ease-in-out;
+        }
+        .cta:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+        }
+        
+        .health-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+       
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mental-health .icon-wrapper {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 10px 20px rgba(164, 89, 247, 0.2);
+        }
+
+        .physical-health .icon-wrapper {
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.2);
+        }
+
+        .nutrition .icon-wrapper {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .planner .icon-wrapper {
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        .health-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .health-card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .health-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .health-card:hover::before {
+            opacity: 1;
+        }
+
+        .icon {
+    font-size: 1.8rem;  /* Reduce emoji size slightly */
+    display: inline-block;
+    line-height: 1;
+}   
+
+
+        .card-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .card-text {
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .floating-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        footer {
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 50px;
+            border-radius: 15px;
+            width: 90%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .social-icons a {
+            font-size: 1.8em;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+        .social-icons .fa-facebook {
+            color: #1877f2;
+        }
+        .social-icons .fa-twitter {
+            color: #1da1f2;
+        }
+        .social-icons .fa-instagram {
+            color: #e1306c;
+        }
+        .social-icons .fa-linkedin {
+            color: #0a66c2;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container position-relative">
+            <a class="navbar-brand" href="#">
+                <img src="./logo.webp" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                Health & Wellness Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="hero">
+        <h2>Empowering Your Well-being</h2>
+        <p>Comprehensive health solutions at your fingertips</p>
+        <button class="cta">Get Started</button>
+    </section>
+    
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="health-card mental-health">
+                    <div class="icon-wrapper">
+                        <i class="icon">🧠</i>
+                    </div>
+                    <h3 class="card-title">Mental Health</h3>
+                    <p class="card-text">Focus on your mental wellbeing and emotional balance</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="health-card physical-health">
+                    <div class="icon-wrapper">
+                        <i class="icon">❤️</i>
+                    </div>
+                    <h3 class="card-title">Physical Health</h3>
+                    <p class="card-text">Stay active and maintain your physical fitness</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="health-card nutrition">
+                    <div class="icon-wrapper">
+                        <i class="icon">🍎</i>
+                    </div>
+                    <h3 class="card-title">Nutrition</h3>
+                    <p class="card-text">Maintain a balanced and healthy diet with your planner</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="health-card planner">
+                    <div class="icon-wrapper">
+                        <i class="icon">📅</i>
+                    </div>
+                    <h3 class="card-title">Planner</h3>
+                    <p class="card-text">Track and plan your health journey with Telemedicine portal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add floating particles
+        document.querySelectorAll('.health-card').forEach(card => {
+            for (let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${2 + Math.random() * 2}s infinite`;
+                card.appendChild(particle);
+            }
+
+            // Add ripple effect
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                card.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Add hover animation
+            card.addEventListener('mousemove', function(e) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const angleX = (y - centerY) / 30;
+                const angleY = (centerX - x) / 30;
+                
+                this.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-10px)`;
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+    </script>
+    
+    <footer>
+        <p class="footer-title">Contact us on</p>
+        <div class="social-icons">
+            <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>&copy; 2025 Health & Wellness. All rights reserved.</p>
+    </footer>
+</body>
+</html>

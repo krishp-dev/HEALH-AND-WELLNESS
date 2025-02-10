@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriSync - Personalized Wellness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+            --secondary-gradient: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            --text-color: #333;
+            --background-color: #f4f6f9;
+        }
+        * {
+            transition: all 0.3s ease;
+        }
+        header {
+    background: linear-gradient(45deg, #ff7e5f, #feb47b); /* Soft coral gradient */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 2s ease-in-out;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    animation: slideIn 1.5s ease-in-out;
+}
+
+/* Animated Background */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #ff9a9e, #fad0c4); /* Coral and pink gradient */
+    opacity: 0.3;
+    z-index: -1;
+    animation: gradientBG 10s ease infinite;
+}
+
+/* Keyframes for Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff9a9e, #fad0c4);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container-fluid {
+            padding: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .nutrition-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .progress-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+        }
+        .circular-progress {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(#2575fc 270deg, #e0e0e0 0deg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            animation: rotateProgress 3s linear infinite;
+        }
+        .water-tracker {
+            width: 100px;
+            height: 200px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to top, #2575fc 50%, transparent 50%);
+        }
+        .water-wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: rgba(37, 117, 252, 0.7);
+            bottom: 0;
+            left: -50%;
+            border-radius: 40%;
+            animation: wave 5s infinite linear;
+        }
+        .wave2 {
+            animation-delay: 2.5s;
+        }
+        .heartbeat-tracker, .steps-tracker, .temperature-tracker {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+        .heartbeat-icon {
+            font-size: 50px;
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+        .steps-icon {
+            font-size: 50px;
+            color: #4ecdc4;
+            animation: bounce 2s infinite;
+        }
+        .temperature-icon {
+            font-size: 50px;
+            color: #ff9a9e;
+            animation: temperature 3s infinite;
+        }
+
+        /* Keyframes for Animations */
+        @keyframes rotateProgress {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes temperature {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .wellness-dashboard {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .meal-item {
+            background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .advanced-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+        .advanced-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NutriSync</h1>
+        <p>Your Personalized Wellness Companion</p>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Calories Tracker -->
+            <div class="nutrition-card">
+                <h3>Daily Calories</h3>
+                <div class="progress-container">
+                    <div class="circular-progress">
+                        <span>1200/2000</span>
+                    </div>
+                </div>
+                <p>Keep tracking!</p>
+            </div>
+
+            <!-- Water Tracker -->
+            <div class="nutrition-card">
+                <h3>Hydration</h3>
+                <div class="water-tracker">
+                    <div class="water-wave"></div>
+                    <div class="water-wave wave2"></div>
+                </div>
+                <p>4/8 Glasses Consumed</p>
+            </div>
+
+            <!-- Heartbeat Tracker -->
+            <div class="nutrition-card">
+                <h3>Heartbeat</h3>
+                <div class="heartbeat-tracker">
+                    <div class="heartbeat-icon">❤️</div>
+                </div>
+                <p>72 BPM</p>
+            </div>
+
+            <!-- Steps Tracker -->
+            <div class="nutrition-card">
+                <h3>Steps Walked</h3>
+                <div class="steps-tracker">
+                    <div class="steps-icon">👣</div>
+                </div>
+                <p>5,000 Steps</p>
+            </div>
+
+            <!-- Body Temperature Tracker -->
+            <div class="nutrition-card">
+                <h3>Body Temperature</h3>
+                <div class="temperature-tracker">
+                    <div class="temperature-icon">🌡️</div>
+                </div>
+                <p>98.6°F</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+    <div class="wellness-dashboard p-4">
+        <h3>Meal Planner</h3>
+        <div id="mealList">
+            <!-- Meals dynamically added here -->
+        </div>
+        <button class="advanced-btn mt-3" data-bs-toggle="modal" data-bs-target="#addMealModal">
+            Add New Meal
+        </button>
+    </div>
+
+
+<!-- Meal Addition Modal -->
+<div class="modal fade" id="addMealModal" tabindex="-1">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Create Nutritional Entry</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <form id="mealForm">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Meal Name</label>
+                        <input type="text" class="form-control" id="mealName" required>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Calories</label>
+                        <input type="number" class="form-control" id="mealCalories" required>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Protein (g)</label>
+                        <input type="number" class="form-control" id="mealProtein">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Carbs (g)</label>
+                        <input type="number" class="form-control" id="mealCarbs">
+                    </div>
+                </div>
+                <button type="submit" class="advanced-btn w-100 mt-2">Save Nutritional Entry</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+   
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+ const mealList = document.getElementById('mealList');
+        const mealForm = document.getElementById('mealForm');
+
+        mealForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const mealName = document.getElementById('mealName').value;
+            const mealCalories = document.getElementById('mealCalories').value;
+            const mealProtein = document.getElementById('mealProtein').value;
+            const mealCarbs = document.getElementById('mealCarbs').value;
+
+            const mealCard = document.createElement('div');
+            mealCard.className = 'meal-item';
+            mealCard.innerHTML = `
+                <div>
+                    <h5>${mealName}</h5>
+                    <small>Calories: ${mealCalories} | Protein: ${mealProtein}g | Carbs: ${mealCarbs}g</small>
+                </div>
+                <button class="btn btn-danger btn-sm delete-meal">Delete</button>
+            `;
+
+            mealList.appendChild(mealCard);
+            mealForm.reset();
+
+            mealCard.querySelector('.delete-meal').addEventListener('click', function() {
+                mealList.removeChild(mealCard);
+            });
+        });
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Add these new styles */
+        .goal-tracker {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .weight-tracker {
+            background: linear-gradient(to right, #36d1dc, #5b86e5);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .weight-chart {
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .workout-plan {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .workout-item {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .nutrition-tips {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .tip-card {
+            border-left: 4px solid #2575fc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- After existing dashboard content -->
+    <div class="container-fluid py-4">
+        <!-- Weight Tracking Section -->
+        <div class="weight-tracker">
+            <h3>Weight Progress</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Current Weight (kg)</label>
+                        <input type="number" class="form-control" id="currentWeight">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Target Weight (kg)</label>
+                        <input type="number" class="form-control" id="targetWeight">
+                    </div>
+                    <button class="advanced-btn mt-3" onclick="updateWeight()">Update Weight</button>
+                </div>
+                <div class="col-md-8">
+                    <div class="weight-chart" id="weightChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workout Planning Section -->
+        <div class="workout-plan">
+            <h3>Workout Schedule</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Exercise Name</label>
+                        <input type="text" class="form-control" id="exerciseName">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Duration (minutes)</label>
+                        <input type="number" class="form-control" id="exerciseDuration">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Day of Week</label>
+                        <select class="form-control" id="exerciseDay">
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                            <option>Sunday</option>
+                        </select>
+                    </div>
+                    <button class="advanced-btn mt-3" onclick="addWorkout()">Add Workout</button>
+                </div>
+                <div class="col-md-6">
+                    <div id="workoutList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition Tips Section -->
+        <div class="nutrition-tips">
+            <h3>Daily Nutrition Tips</h3>
+            <div id="tipsList"></div>
+        </div>
+    </div>
+
+    <script src="neu.js">
+    </script>
+</body>
+</html>

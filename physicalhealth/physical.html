@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physical Health Workouts</title>
+ <style>
+  /* styles.css */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+header {
+  background: linear-gradient(135deg, #333, #555);
+  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+header p {
+  font-size: 1.2rem;
+  margin: 10px 0 0;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.category-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.category-btn i {
+  font-size: 1.5rem;
+}
+
+.workouts {
+  padding: 20px;
+  text-align: center;
+}
+
+#workout-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.workout-item {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.workout-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.workout-item img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.workout-item h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.timer {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #007bff;
+}
+
+.timer-input {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.start-timer-btn,
+.stop-timer-btn {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 5px;
+}
+
+.start-timer-btn:hover,
+.stop-timer-btn:hover {
+  background: #0056b3;
+}
+
+.stop-timer-btn {
+  background: #dc3545;
+}
+
+.stop-timer-btn:hover {
+  background: #c82333;
+}
+
+.message {
+  font-size: 0.9rem;
+  color: #dc3545;
+  margin-top: 10px;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+ </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Physical Health Workouts</h1>
+    <p>Choose a category to get started!</p>
+  </header>
+
+  <section class="categories">
+    <button data-category="strength" class="category-btn">
+      <i class="fas fa-dumbbell"></i>
+      <span>Strength Training</span>
+    </button>
+    <button data-category="cardio" class="category-btn">
+      <i class="fas fa-running"></i>
+      <span>Cardio</span>
+    </button>
+    <button data-category="yoga" class="category-btn">
+      <i class="fas fa-spa"></i>
+      <span>Yoga & Stretching</span>
+    </button>
+    <button data-category="home" class="category-btn">
+      <i class="fas fa-home"></i>
+      <span>Home Workouts</span>
+    </button>
+  </section>
+
+  <section class="workouts">
+    <h2>Workouts</h2>
+    <div id="workout-list"></div>
+  </section>
+
+  <script src="health.js"></script>
+</body>
+</html>
