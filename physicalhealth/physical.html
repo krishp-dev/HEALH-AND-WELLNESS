@@ -321,9 +321,37 @@
     .tab-content.active {
       display: block;
     }
+    .home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
   </style>
 </head>
 <body>
+  <a href="" class="home-button">
+    <i class="fas fa-home"></i>
+</a>
   <header>
     <h1>Physical Health Workouts</h1>
     <p class="text-light fs-4">Choose a category to begin your fitness journey!</p>
@@ -388,7 +416,6 @@
       </div>
       <button class="btn btn-primary w-100 mb-3" id="addExercise">Add Exercise</button>
       <ul class="exercise-list" id="customExerciseList"></ul>
-      <button class="btn btn-success w-100" id="saveWorkout">Save Workout</button>
     </div>
   </div>
 
