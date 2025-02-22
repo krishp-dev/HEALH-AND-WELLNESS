@@ -123,48 +123,5 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
         alert('Error submitting form: ' + error.message);
     });
 });
-// Frontend JavaScript for handling cancellation
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Add event listener to all cancel buttons
-//     document.querySelectorAll('.cancel-appointment-btn').forEach(button => {
-//         button.addEventListener('click', function(e) {
-//             e.preventDefault();
-            
-//             if (!confirm('Are you sure you want to cancel this appointment?')) {
-//                 return;
-//             }
 
-//             const appointmentId = this.getAttribute('data-appointment-id');
-//             const formData = new FormData();
-//             formData.append('appointment_id', appointmentId);
-//             formData.append('action', 'cancel');
-
-//             fetch('http://localhost/haw/telimedicine/cancel_appointment.php', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Accept': 'application/json'
-//                 },
-//                 body: formData
-//             })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     alert('Appointment cancelled successfully!');
-//                     // Remove the appointment from the UI or refresh the page
-//                     const appointmentElement = document.querySelector(`#appointment-${appointmentId}`);
-//                     if (appointmentElement) {
-//                         appointmentElement.remove();
-//                     } else {
-//                         window.location.reload();
-//                     }
-//                 } else {
-//                     alert('Error: ' + (data.error || 'Failed to cancel appointment'));
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//                 alert('Error cancelling appointment: ' + error.message);
-//             });
-//         });
-//     });
-// });
+  
